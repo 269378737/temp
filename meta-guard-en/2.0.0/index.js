@@ -47313,6 +47313,48 @@ const getAgeIndexTexts = (metabolicIndex) => {
     color: "#E81224"
   };
 };
+const getImmuneHealthTexts = (ImmuneHealthLevelText) => {
+  if (ImmuneHealthLevelText === SystemLevelText[0]) {
+    return {
+      title: ImmuneHealthLevelText,
+      description: `Low status. Immune function is significantly weakened. It is recommended to actively adjust your daily routine, nutrition, and stress management. Seek professional advice if necessary.`,
+      color: SystemLevelColor[0]
+    };
+  }
+  if (ImmuneHealthLevelText === SystemLevelText[1]) {
+    return {
+      title: ImmuneHealthLevelText,
+      description: `Requires special attention. Immune indicators are low and may be related to lifestyle or underlying health conditions. It is recommended to seek professional advice and adjust lifestyle habits accordingly.`,
+      color: SystemLevelColor[1]
+    };
+  }
+  if (ImmuneHealthLevelText === SystemLevelText[2]) {
+    return {
+      title: ImmuneHealthLevelText,
+      description: `Overall stable. Your immune function is at a moderate level. It is recommended to maintain a healthy routine and balanced nutrition to further optimize your immune status.`,
+      color: SystemLevelColor[2]
+    };
+  }
+  if (ImmuneHealthLevelText === SystemLevelText[3]) {
+    return {
+      title: ImmuneHealthLevelText,
+      description: `Stable and good. Your immune status is steady and balanced compared to peers. It is recommended to continue maintaining your current healthy habits.`,
+      color: SystemLevelColor[3]
+    };
+  }
+  if (ImmuneHealthLevelText === SystemLevelText[4]) {
+    return {
+      title: ImmuneHealthLevelText,
+      description: `Very stable. Your immune regulation and anti-inflammatory functions are performing well, providing strong immune defense and regulation. This forms an important foundation for maintaining overall health.`,
+      color: SystemLevelColor[4]
+    };
+  }
+  return {
+    title: ImmuneHealthLevelText,
+    description: `Immune activity is elevated. This may be related to chronic inflammation or stress. It is recommended to monitor your condition regularly and seek professional advice if necessary.`,
+    color: SystemLevelColor[5]
+  };
+};
 const FirstPage = (props) => {
   var _a, _b, _c, _d, _e, _f, _g, _h, _i, _j, _k, _l, _m, _n, _o, _p, _q, _r, _s, _t, _u, _v, _w, _x, _y, _z, _A, _B, _C, _D, _E, _F, _G, _H, _I, _J, _K, _L, _M, _N, _O, _P, _Q, _R, _S, _T, _U, _V, _W, _X, _Y, _Z, __, _$, _aa, _ba, _ca, _da, _ea, _fa, _ga, _ha, _ia, _ja, _ka;
   const {
@@ -47331,10 +47373,18 @@ const FirstPage = (props) => {
       MetaboT2D: MetaboT2D2,
       MetaboCKD: MetaboCKD2
     },
-    interpretation
+    interpretation,
+    immunity: {
+      MetaboImmuneSystemAging: {
+        test: {
+          levelText
+        }
+      }
+    }
   } = window.MetaGuardENLimsData;
   const ageTexts = getAgeTexts(((_a = MetaboAging2 == null ? void 0 : MetaboAging2.metabolicAge) == null ? void 0 : _a.valueNumber) || 0, age);
   const ageIndexTexts = getAgeIndexTexts(((_b = MetaboAging2 == null ? void 0 : MetaboAging2.index) == null ? void 0 : _b.valueNumber) || 1);
+  const immuneHealthTexts = getImmuneHealthTexts(levelText);
   const showTableList = [{
     title: "Physiological age",
     value: `${((_c = MetaboAging2 == null ? void 0 : MetaboAging2.metabolicAge) == null ? void 0 : _c.valueNumber) || "-"} years`,
@@ -47352,6 +47402,12 @@ const FirstPage = (props) => {
     interpretation: ageIndexTexts.title,
     interpretationColor: ageIndexTexts.color,
     explanation: ageIndexTexts.description
+  }, {
+    title: "Immune health",
+    value: immuneHealthTexts.title,
+    interpretation: immuneHealthTexts.title,
+    interpretationColor: immuneHealthTexts.color,
+    explanation: immuneHealthTexts.description
   }];
   const isMetaboADAbnormal = MetaboAD2 && [RiskLevelMap.High, RiskLevelMap.Middle].includes((_d = MetaboAD2 == null ? void 0 : MetaboAD2.index) == null ? void 0 : _d.levelEn);
   const isMetaboCVAAbnormal = MetaboCVA2 && [RiskLevelMap.High, RiskLevelMap.Middle].includes((_e = MetaboCVA2 == null ? void 0 : MetaboCVA2.index) == null ? void 0 : _e.levelEn);
@@ -47521,7 +47577,7 @@ const FirstPage = (props) => {
     });
     hasHeader = true;
   }
-  const _renderList = groupByHeight(componentList, 620 - diseaseList.length * 20, 940);
+  const _renderList = groupByHeight(componentList, 620 - diseaseList.length * 20, 920);
   function insertTitleBeforeMeta(arr) {
     for (const row of arr) {
       const index2 = row.findIndex((item) => item.type === "metaboDisease");
